@@ -74,20 +74,39 @@ export default {
     login() {},
 
     onLogin() {
-      if (!this.server || this.server == "") {
-        this.label_Status = common.lang["连接服务器失败"];
-        return;
-      }
-
-      if (!this.user || this.user == "") {
+      if (!this.username || this.username == "") {
         this.$q.notify(common.lang["请输入用户名"]);
         return;
       }
 
-      if (!this.pwd || this.pwd == "") {
+      if (!this.password || this.password == "") {
         this.$q.notify(common.lang["请输入密码"]);
         return;
       }
+
+      common.RequestURL(
+        "http://127.0.0.1:3000/login/" + this.username + "/" + this.password,
+        "",
+        "",
+        "GET",
+        data => {
+          console.log(data);
+          switch (data) {
+            case "success":
+              this.$q.notify("登陆成功！");
+              break;
+            case "failed":
+              this.$q.notify("登陆失败！");
+              break;
+            case "username error":
+              this.$q.notify("用户名错误！");
+              break;
+            default:
+              this.$q.notify("未知错误！");
+              break;
+          }
+        }
+      );
     }
   },
 
