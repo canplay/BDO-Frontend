@@ -70,8 +70,10 @@ module.exports = function(ctx) {
         "QMenu",
         "QLinearProgress",
         "QCarousel",
-        'QCarouselControl',
-        'QCarouselSlide'
+        "QCarouselControl",
+        "QCarouselSlide",
+        "QSplitter",
+        "QCircularProgress"
       ],
 
       directives: ["Ripple", "ClosePopup"],

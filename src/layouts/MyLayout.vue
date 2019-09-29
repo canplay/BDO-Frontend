@@ -25,9 +25,9 @@
         icon="file_download"
         @click="download"
       >
-        <q-tooltip v-model="show_download" content-style="font-size: 12px">
-          {{ download_tip }}
-        </q-tooltip>
+        <q-tooltip v-model="show_download" content-style="font-size: 12px">{{
+          download_tip
+        }}</q-tooltip>
       </q-btn>
 
       <q-btn
@@ -38,21 +38,21 @@
         icon="settings"
         @click="option"
       >
-        <q-tooltip content-style="font-size: 12px">{{
-          label_Option
-        }}</q-tooltip>
+        <q-tooltip content-style="font-size: 12px">
+          {{ label_Option }}
+        </q-tooltip>
       </q-btn>
 
       <q-btn dense flat color="black" icon="minimize" @click="minimize">
-        <q-tooltip content-style="font-size: 12px">{{
-          label_Minimize
-        }}</q-tooltip>
+        <q-tooltip content-style="font-size: 12px">
+          {{ label_Minimize }}
+        </q-tooltip>
       </q-btn>
 
       <q-btn dense flat color="black" icon="crop_square" @click="maximize">
-        <q-tooltip content-style="font-size: 12px">{{
-          label_Maximize
-        }}</q-tooltip>
+        <q-tooltip content-style="font-size: 12px">
+          {{ label_Maximize }}
+        </q-tooltip>
       </q-btn>
 
       <q-btn dense flat color="black" icon="close" @click="close">
@@ -61,7 +61,12 @@
     </q-toolbar>
 
     <q-page-container>
-      <router-view ref="container" />
+      <router-view
+        transition-show="fade"
+        transition-hide="fade"
+        ref="container"
+        :style="{ 'min-height': minHeight + 'px', height: minHeight + 'px' }"
+      />
     </q-page-container>
 
     <q-dialog v-model="dlg_option">
@@ -158,7 +163,8 @@ export default {
       label_Minimize: "",
       label_Maximize: "",
       label_Close: "",
-      maximized: false
+      maximized: false,
+      minHeight: 0
     };
   },
 
@@ -186,6 +192,7 @@ export default {
         width: window.innerWidth + "px",
         height: window.innerHeight - 32 + "px"
       };
+      this.minHeight = window.innerHeight - 50;
     },
 
     reload(url) {
