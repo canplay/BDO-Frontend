@@ -34,7 +34,9 @@
                       :value="dashboard.cpu"
                       size="180px"
                       color="light-blue"
-                    />
+                    >
+                      {{ dashboard.cpu }}%
+                    </q-circular-progress>
                   </div>
 
                   <div class="col-4 text-center">
@@ -44,7 +46,9 @@
                       :value="dashboard.memory"
                       size="180px"
                       color="light-blue"
-                    />
+                    >
+                      {{ dashboard.memory }}%
+                    </q-circular-progress>
                   </div>
 
                   <div class="col-4 text-center">
@@ -54,7 +58,9 @@
                       :value="dashboard.disk"
                       size="180px"
                       color="light-blue"
-                    />
+                    >
+                      {{ dashboard.disk }}%
+                    </q-circular-progress>
                   </div>
                 </div>
               </div>
@@ -70,7 +76,9 @@
                       :value="dashboard.backend"
                       size="180px"
                       color="light-blue"
-                    />
+                    >
+                      {{ dashboard.backend }}%
+                    </q-circular-progress>
                   </div>
 
                   <div class="col-3 text-center">
@@ -80,7 +88,9 @@
                       :value="dashboard.database"
                       size="180px"
                       color="light-blue"
-                    />
+                    >
+                      {{ dashboard.database }}%
+                    </q-circular-progress>
                   </div>
 
                   <div class="col-3 text-center">
@@ -90,7 +100,9 @@
                       :value="dashboard.loginserver"
                       size="180px"
                       color="light-blue"
-                    />
+                    >
+                      {{ dashboard.loginserver }}%
+                    </q-circular-progress>
                   </div>
 
                   <div class="col-3 text-center">
@@ -100,7 +112,9 @@
                       :value="dashboard.gameserver"
                       size="180px"
                       color="light-blue"
-                    />
+                    >
+                      {{ dashboard.gameserver }}%
+                    </q-circular-progress>
                   </div>
                 </div>
               </div>
@@ -111,19 +125,25 @@
                 <div class="row">
                   <div class="col">
                     <div class="text-h4 text-center">
-                      开机时间：{{ dashboard.startTime }}
+                      操作系统：<br />{{ dashboard.os }}
                     </div>
                   </div>
 
                   <div class="col">
                     <div class="text-h4 text-center">
-                      运行时长：{{ dashboard.runTime }}
+                      开机时间：<br />{{ dashboard.startTime }}
                     </div>
                   </div>
 
                   <div class="col">
                     <div class="text-h4 text-center">
-                      在线人数：{{ dashboard.onlineNumber }}
+                      运行时长：<br />{{ dashboard.runTime }}
+                    </div>
+                  </div>
+
+                  <div class="col">
+                    <div class="text-h4 text-center">
+                      在线人数：<br />{{ dashboard.onlineNumber }}
                     </div>
                   </div>
                 </div>
@@ -278,6 +298,9 @@ const data = [
   }
 ];
 
+import systemInfo from "systeminformation";
+import os from "os";
+
 export default {
   name: "PageAdmin",
 
@@ -286,6 +309,7 @@ export default {
       splitterModel: 10,
       tab: "dashboard",
       dashboard: {
+        os: "",
         cpu: 0,
         memory: 0,
         disk: 0,
@@ -304,20 +328,86 @@ export default {
     };
   },
 
-  created() {
-    this.dashboard.cpu = 31;
-    this.dashboard.memory = 24;
-    this.dashboard.disk = 38;
-    this.dashboard.backend = 14;
-    this.dashboard.database = 18;
-    this.dashboard.loginserver = 21;
-    this.dashboard.gameserver = 37;
-    this.dashboard.startTime = "15:03:33";
-    this.dashboard.runTime = "00:01:21";
-    this.dashboard.onlineNumber = 0;
+  methods: {
+    // dateToString(time) {
+    //   let datetime = new Date(time);
+    //   let year = datetime.getFullYear();
+    //   let month = datetime.getMonth() + 1;
+    //   let date = datetime.getDate();
+    //   let hour = datetime.getHours();
+    //   let min = datetime.getMinutes();
+    //   let sec = datetime.getSeconds();
+    //   month = month < 10 ? "0" + month : month;
+    //   date = date < 10 ? "0" + date : date;
+    //   hour = hour < 10 ? "0" + hour : hour;
+    //   min = min < 10 ? "0" + min : min;
+    //   sec = sec < 10 ? "0" + sec : sec;
+    //   return year + "-" + month + "-" + date + "\n" + hour + ":" + min + ":" + sec;
+    // },
+
+    elapsedTime(startTime, endTime) {
+      let datetime1 = new Date(startTime);
+      let hour1 = datetime1.getHours();
+      let min1 = datetime1.getMinutes();
+      let sec1 = datetime1.getSeconds();
+
+      let datetime2 = new Date(endTime);
+      let hour2 = datetime2.getHours();
+      let min2 = datetime2.getMinutes();
+      let sec2 = datetime2.getSeconds();
+
+      let hour = hour2 - hour1;
+      let min = min2 - min1;
+      let sec = sec2 - sec1;
+      hour = hour < 10 ? "0" + hour : hour;
+      min = min < 10 ? "0" + min : min;
+      sec = sec < 10 ? "0" + sec : sec;
+
+      return hour + ":" + min + ":" + sec;
+    }
   },
 
-  methods: {},
+  created() {
+    let datetime = new Date(os.uptime());
+    let hour = datetime.getHours();
+    let min = datetime.getMinutes();
+    let sec = datetime.getSeconds();
+    hour = hour < 10 ? "0" + hour : hour;
+    min = min < 10 ? "0" + min : min;
+    sec = sec < 10 ? "0" + sec : sec;
+    let time = hour + ":" + min + ":" + sec;
+    this.dashboard.startTime = time;
+
+    setInterval(() => {
+      systemInfo.osInfo(cb => {
+        this.dashboard.os = cb.platform + " " + cb.build;
+      });
+      systemInfo.currentLoad(cb => {
+        this.dashboard.cpu = parseInt(cb.currentload);
+      });
+      systemInfo.mem(cb => {
+        this.dashboard.memory = parseInt((cb.used / cb.total) * 100);
+      });
+      systemInfo.fsSize(cb => {
+        let size = 0,
+          total = 0;
+        for (let index = 0; index < cb.length; index++) {
+          total += parseInt(cb[index].size);
+          size += parseInt(cb[index].used);
+        }
+        this.dashboard.disk = parseInt((size / total) * 100);
+      });
+
+      this.dashboard.backend = 14;
+      this.dashboard.database = 18;
+      this.dashboard.loginserver = 21;
+      this.dashboard.gameserver = 37;
+
+      this.dashboard.runTime = this.elapsedTime(os.uptime(), systemInfo.time().current);
+
+      this.dashboard.onlineNumber = 0;
+    }, 1000);
+  },
 
   mounted() {},
 

@@ -237,7 +237,7 @@ export default {
       this.download_tip = common.lang["正在下载"] + arg;
       this.show_download = true;
 
-      self.setInterval(() => {
+      setInterval(() => {
         this.download_tip = common.lang["下载"];
         this.show_download = false;
       }, 3000);
@@ -247,7 +247,7 @@ export default {
       this.download_tip = common.lang["下载完毕"] + arg;
       this.show_download = true;
 
-      self.setInterval(() => {
+      setInterval(() => {
         this.download_tip = common.lang["下载"];
         this.show_download = false;
       }, 3000);
