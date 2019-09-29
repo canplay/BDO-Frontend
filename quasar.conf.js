@@ -73,7 +73,12 @@ module.exports = function(ctx) {
         "QCarouselControl",
         "QCarouselSlide",
         "QSplitter",
-        "QCircularProgress"
+        "QCircularProgress",
+        "QPopupEdit",
+        "QTable",
+        "QTh",
+        "QTr",
+        "QTd"
       ],
 
       directives: ["Ripple", "ClosePopup"],
