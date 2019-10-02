@@ -18,9 +18,3 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
-/addon/build
-/Permission/output
-/Permission/temp
-/Bin
-/Permission/.vs
-/package-lock.json
