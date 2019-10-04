@@ -1,5 +1,5 @@
 <template>
-  <q-page style="padding: 10px">
+  <q-page>
     <div class="column">
       <div class="col row">
         <div class="col-10">
@@ -29,24 +29,24 @@
 
         <div class="col column">
           <div class="col">
-            <q-btn label="Register" color="primary" @click="onRegister" class="fit" />
+            <q-btn :label="langRegister" color="primary" @click="onRegister" class="fit" />
           </div>
 
           <div class="col-1" />
 
           <div class="col">
-            <q-btn label="Login" color="negative" @click="onLogin" class="fit" />
+            <q-btn :label="langLogin" color="negative" @click="onLogin" class="fit" />
           </div>
         </div>
       </div>
 
       <div class="col" style="height: 10px" />
 
-      <div class="col row">
+      <div class="col row fit">
         <div class="col">
           <q-card dark style="background-color: rgba(0, 0, 0, 0.5)">
             <q-card-section>
-              <div class="text-h6">Notice</div>
+              <div class="text-h6">{{ langNotice }}</div>
             </q-card-section>
 
             <q-separator dark inset />
@@ -66,7 +66,7 @@
         <div class="col">
           <q-card dark style="background-color: rgba(0, 0, 0, 0.5)">
             <q-card-section>
-              <div class="text-h6">News</div>
+              <div class="text-h6">{{ langNews }}</div>
             </q-card-section>
 
             <q-separator dark inset />
@@ -86,7 +86,7 @@
     <q-dialog v-model="dialogAccount.show">
       <q-card class="text-white" style="background-color: rgba(0, 0, 0, 0.5); width: 50%">
         <q-card-section>
-          <div class="text-h6">{{ dialogAccount.mode }}</div>
+          <div class="text-h6 text-center">{{ langDlgAccount }}</div>
         </q-card-section>
 
         <q-card-section>
@@ -98,6 +98,8 @@
 </template>
 
 <script>
+import config from "../components/config.js";
+
 export default {
   name: "PageIndex",
 
@@ -118,23 +120,35 @@ export default {
       News: {
         Notice: [],
         News: []
-      }
+      },
+      langNotice: "",
+      langNews: "",
+      langDlgAccount: "",
+      langRegister: "",
+      langLogin: ""
     };
   },
 
   methods: {
     onRegister() {
       this.dialogAccount.mode = "Register";
+      this.langDlgAccount = config.lang[0]["注册"];
       this.dialogAccount.show = true;
     },
 
     onLogin() {
       this.dialogAccount.mode = "Login";
+      this.langDlgAccount = config.lang[0]["登录"];
       this.dialogAccount.show = true;
     }
   },
 
   created() {
+    this.langNotice = config.lang[0]["公告"];
+    this.langNews = config.lang[0]["新闻"];
+    this.langRegister = config.lang[0]["注册"];
+    this.langLogin = config.lang[0]["登录"];
+
     this.slide.list.push({ title: "Slide 1", src: "statics/1.jpeg" });
     this.slide.list.push({ title: "Slide 2", src: "statics/2.jpg" });
     this.slide.list.push({ title: "Slide 3", src: "statics/3.png" });
