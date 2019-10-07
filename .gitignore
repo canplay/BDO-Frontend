@@ -19,3 +19,6 @@ yarn-error.log*
 *.njsproj
 *.sln
 /package-lock.json
+/launcher/output
+/launcher/temp
+/launcher/.vs
