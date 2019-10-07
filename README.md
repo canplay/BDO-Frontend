@@ -1,5 +1,7 @@
 # BDO-Frontend
 
+![Image text](https://github.com/canplay/BDO-Frontend/blob/master/preview.png)
+
 Dev:
 
 1. command: npm i
