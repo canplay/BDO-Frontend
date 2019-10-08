@@ -132,9 +132,19 @@ export default {
       switch (this.mode) {
         case "Register":
           this.$axios
-            .get(config.ip + "/register/" + this.username + "/" + this.password)
+            .post(config.ip + "/register".post(config.ip + "/login", {
+              "username": this.username,
+              "password": this.password
+            }))
             .then(response => {
-              switch (response.data) {
+              if (response.data.status) {
+                  this.$emit("event", "registered");
+                  this.$q.loading.hide();
+                  window.clearTimeout(timer);
+                  this.$q.notify(this.$t("注册成功"));
+              }
+              else {
+              switch (response.data.msg) {
                 case "id error":
                   this.$q.loading.hide();
                   window.clearTimeout(timer);
@@ -150,45 +160,50 @@ export default {
                   window.clearTimeout(timer);
                   this.$q.notify(this.$t("账号已存在"));
                   break;
-                case "success":
-                  this.$emit("event", "registered");
-                  this.$q.loading.hide();
-                  window.clearTimeout(timer);
-                  this.$q.notify(this.$t("注册成功"));
-                  break;
                 default:
                   this.$q.loading.hide();
                   window.clearTimeout(timer);
                   this.$q.notify(this.$t("注册失败"));
                   break;
               }
+              }
+            })
+            .catch(error => {
+              console.log(error.code);
+              this.$q.loading.hide();
+              window.clearTimeout(timer);
             });
           break;
         case "Login":
           this.$axios
-            .get(config.ip + "/login/" + this.username + "/" + this.password)
+            .post(config.ip + "/login", {
+              "username": this.username,
+              "password": this.password
+            })
             .then(response => {
-              switch (response.data) {
-                case "username error":
+              if (response.data.status) {
+                this.$emit("event", "login", this.username, this.password);
                   this.$q.loading.hide();
                   window.clearTimeout(timer);
-                  this.$q.notify(this.$t("用户名错误"));
-                  break;
-                case "password error":
-                  this.$q.loading.hide();
-                  window.clearTimeout(timer);
-                  this.$q.notify(this.$t("密码错误"));
-                  break;
-                case "success":
-                  this.$emit("event", "login", this.username, this.password);
-                  this.$q.loading.hide();
-                  window.clearTimeout(timer);
-                  break;
-                default:
-                  this.$q.loading.hide();
-                  window.clearTimeout(timer);
-                  this.$q.notify(this.$t("登录失败！"));
-                  break;
+              }
+              else {
+                switch (response.data.msg) {
+                  case "username error":
+                    this.$q.loading.hide();
+                    window.clearTimeout(timer);
+                    this.$q.notify(this.$t("用户名错误"));
+                    break;
+                  case "password error":
+                    this.$q.loading.hide();
+                    window.clearTimeout(timer);
+                    this.$q.notify(this.$t("密码错误"));
+                    break;
+                  default:
+                    this.$q.loading.hide();
+                    window.clearTimeout(timer);
+                    this.$q.notify(this.$t("登录失败"));
+                    break;
+                }
               }
             });
           break;

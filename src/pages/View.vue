@@ -30,7 +30,7 @@ export default {
     this.$axios
       .get(config.ip + "/news/" + this.$route.query.id)
       .then(response => {
-        this.viewerText = response.data.content;
+        this.viewerText = response.data.msg.content;
       });
   }
 };

@@ -28,7 +28,7 @@ export default {
 
   created() {
     this.$axios.get(config.ip + "/markdown").then(response => {
-      this.viewerText = response.data[0].download;
+      this.viewerText = response.data.msg[0].download;
     });
   }
 };
