@@ -30,7 +30,7 @@
       <div class="col column">
         <div class="col">
           <q-btn
-            :label="logined ? $t('启动') : $t('注册')"
+            :label="this.$store.state.custom.logined ? $t('启动') : $t('注册')"
             color="primary"
             @click="onRegister"
             class="fit"
@@ -41,7 +41,7 @@
 
         <div class="col">
           <q-btn
-            :label="logined ? $t('退出') : $t('登录')"
+            :label="this.$store.state.custom.logined ? $t('退出') : $t('登录')"
             color="negative"
             @click="onLogin"
             class="fit"
@@ -138,41 +138,29 @@ export default {
   data() {
     return {
       slide: {
-        model: "",
+        model: null,
         list: []
       },
       dialogAccount: {
         show: false,
-        mode: ""
+        mode: null
       },
       News: {
         Notice: [],
         News: []
       },
-      logined: false,
-      username: "",
-      password: ""
+      username: null,
+      password: null
     };
   },
 
   methods: {
-    onEvent(e, username, password) {
-      switch (e) {
-        case "registered":
-          this.dialogAccount.show = false;
-          break;
-        case "login":
-          this.username = username;
-          this.password = password;
-          this.dialogAccount.show = false;
-          this.logined = true;
-          this.$emit("event", "login");
-          break;
-      }
+    onEvent() {
+      this.dialogAccount = false;
     },
 
     onRegister() {
-      if (this.logined) {
+      if (this.$store.state.custom.logined) {
         let server;
         this.$axios
           .get(this.$store.state.custom.ip + "/home/config")
@@ -197,9 +185,9 @@ export default {
     },
 
     onLogin() {
-      if (this.logined) {
-        this.logined = false;
-        this.$emit("event", "logout");
+      if (this.$store.state.custom.logined) {
+        this.$q.sessionStorage.remove("token");
+        this.$store.commit("custom/login", false);
       } else {
         this.dialogAccount.mode = "Login";
         this.dialogAccount.show = true;

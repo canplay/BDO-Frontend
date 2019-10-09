@@ -1,13 +1,6 @@
 <template>
-  <div
-    class="rounded-borders"
-    style="background-color: rgba(0, 0, 0, 0.5); padding: 10px"
-  >
-    <q-splitter
-      v-model="splitterModel"
-      class="rounded-borders"
-      style="background-color: rgba(0, 0, 0, 0.5)"
-    >
+  <div class="rounded-borders" style="background-color: rgba(0, 0, 0, 0.5); padding: 10px">
+    <q-splitter v-model="splitterModel" :limits="[15, 85]">
       <template v-slot:before>
         <q-tabs v-model="tabModel" vertical class="text-white">
           <q-tab name="info" icon="mail" label="概览" />
@@ -22,18 +15,28 @@
 
       <template v-slot:after>
         <q-tab-panels
-          class="transparent text-white"
+          class="text-white transparent"
           v-model="tabModel"
           animated
           transition-prev="jump-up"
           transition-next="jump-up"
         >
           <q-tab-panel name="info">
-            <div class="text-h5">服务器时间：{{ os.time }}</div>
-            <div class="text-h5">运行时长：{{ os.runtime }}</div>
-            <div class="text-h5">启动器目录：{{ launcher }}</div>
-            <div class="text-h5">版本：{{ update.version }}</div>
-            <div class="text-h5">更新器目录：{{ update.path }}</div>
+            <q-card class="bg-black">
+              <q-card-section>
+                <div class="text-h6">服务器时间：{{ os.time }}</div>
+                <br />
+                <div class="text-h6">运行时长：{{ os.runtime }}</div>
+                <br />
+                <q-input filled dark v-model="launcher" label="启动器目录" />
+                <br />
+                <q-input filled dark v-model="update.version" label="版本" />
+                <br />
+                <q-input filled dark v-model="update.path" label="补丁目录" />
+                <br />
+                <q-btn class="fill" color="primary" label="保存" />
+              </q-card-section>
+            </q-card>
           </q-tab-panel>
 
           <q-tab-panel name="news"></q-tab-panel>
@@ -54,6 +57,8 @@
 </template>
 
 <script>
+import moment from "moment";
+
 export default {
   name: "PageAdmin",
 
@@ -62,15 +67,55 @@ export default {
       splitterModel: 10,
       tabModel: "info",
       os: {
-        time: 0,
-        runtime: 0
+        time: null,
+        runtime: null
       },
-      launcher: "",
+      launcher: null,
       update: {
-        version: "",
-        path: ""
-      }
+        version: null,
+        path: null
+      },
+      timer: null
     };
+  },
+
+  created() {
+    if (!this.$store.state.custom.logined) this.$router.push("/");
+
+    let timeUnix, runtimeUnix;
+
+    this.$axios
+      .post(this.$store.state.custom.ip + "/info", {
+        token: this.$q.sessionStorage.getItem("token")
+      })
+      .then(response => {
+        moment.locale("zh-cn");
+
+        timeUnix = response.data.msg.time;
+        runtimeUnix = response.data.msg.runtime;
+        this.os.time = moment.unix(timeUnix).format("YYYY年 MMMM Do, h:mm:ss");
+        this.os.runtime = moment
+          .duration(runtimeUnix - timeUnix, "s")
+          .humanize();
+
+        this.timer = window.setInterval(() => {
+          timeUnix = moment(timeUnix).add(1, "ms");
+          this.os.time = moment
+            .unix(timeUnix)
+            .format("YYYY年 MMMM Do, h:mm:ss");
+          this.os.runtime = moment
+            .duration(runtimeUnix - timeUnix, "s")
+            .humanize();
+        }, 1000);
+
+        this.update.version = response.data.msg.version;
+        this.update.path = response.data.msg.update;
+        this.launcher = response.data.msg.launcher;
+      });
+  },
+
+  destroyed() {
+    window.clearTimeout(this.timer);
   }
 };
 </script>

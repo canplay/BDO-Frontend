@@ -28,7 +28,13 @@
                 exact
               />
               <q-route-tab name="about" to="/about" :label="$t('关于')" exact />
-              <!-- <q-route-tab v-if="logined" name="admin" to="/admin" label="后台" exact /> -->
+              <q-route-tab
+                v-if="this.$store.state.custom.logined"
+                name="admin"
+                to="/admin"
+                label="后台"
+                exact
+              />
             </q-tabs>
 
             <q-space />
@@ -64,7 +70,6 @@
       <q-page-container>
         <router-view
           style="min-height: 0; margin-top: 10px; margin-bottom: 10px"
-          @event="onEvent"
         />
       </q-page-container>
 
@@ -120,32 +125,18 @@ export default {
   data() {
     return {
       tab: "home",
-      areaHeight: "",
-      logined: true,
-      server: "",
       weblink: {
-        forum: "",
-        twitter: "",
-        facebook: "",
-        discord: "",
-        weibo: "",
-        weixin: ""
+        forum: null,
+        twitter: null,
+        facebook: null,
+        discord: null,
+        weibo: null,
+        weixin: null
       }
     };
   },
 
   methods: {
-    onEvent(e) {
-      switch (e) {
-        case "logout":
-          this.logined = false;
-          break;
-        case "login":
-          this.logined = true;
-          break;
-      }
-    },
-
     onChangeLang(index) {
       switch (index) {
         case 0:
@@ -195,6 +186,11 @@ export default {
         this.weblink.weibo = response.data.msg[0].weibo;
         this.weblink.weixin = response.data.msg[0].weixin;
       });
+
+    let token = this.$q.sessionStorage.getItem("token");
+    if (token) {
+      this.$store.commit("custom/login", true);
+    }
   }
 };
 </script>

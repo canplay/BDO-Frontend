@@ -1,1 +1,3 @@
-export function someMutation(/* state */) {}
+export function login(state, value) {
+  state.logined = value;
+}

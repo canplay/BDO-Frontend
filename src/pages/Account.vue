@@ -61,11 +61,11 @@ export default {
 
   data() {
     return {
-      username: "",
-      password: "",
-      captcha: "",
-      imgCaptcha: "",
-      labelBtn: "",
+      username: null,
+      password: null,
+      captcha: null,
+      imgCaptcha: null,
+      labelBtn: null,
       id: 0
     };
   },
@@ -131,16 +131,17 @@ export default {
       switch (this.mode) {
         case "Register":
           this.$axios
-            .post(this.$store.state.custom.ip + "/login", {
+            .post(this.$store.state.custom.ip + "/register", {
               username: this.username,
               password: this.password
             })
             .then(response => {
               if (response.data.status) {
-                this.$emit("event", "registered");
+                this.$q.sessionStorage.set("token", response.data.msg);
                 this.$q.loading.hide();
                 window.clearTimeout(timer);
                 this.$q.notify(this.$t("注册成功"));
+                this.$emit("event");
               } else {
                 switch (response.data.msg) {
                   case "id error":
@@ -165,11 +166,6 @@ export default {
                     break;
                 }
               }
-            })
-            .catch(error => {
-              console.log(error.code);
-              this.$q.loading.hide();
-              window.clearTimeout(timer);
             });
           break;
         case "Login":
@@ -180,9 +176,11 @@ export default {
             })
             .then(response => {
               if (response.data.status) {
-                this.$emit("event", "login", this.username, this.password);
+                this.$q.sessionStorage.set("token", response.data.msg);
+                this.$store.commit("custom/login", true);
                 this.$q.loading.hide();
                 window.clearTimeout(timer);
+                this.$emit("event");
               } else {
                 switch (response.data.msg) {
                   case "username error":
