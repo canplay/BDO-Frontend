@@ -128,8 +128,6 @@
 </template>
 
 <script>
-import config from "../components/config.js";
-
 export default {
   name: "PageIndex",
 
@@ -177,7 +175,7 @@ export default {
       if (this.logined) {
         let server;
         this.$axios
-          .get(config.ip + "/home/config")
+          .get(this.$store.state.custom.ip + "/home/config")
           .then(response => {
             server = response.data.msg[0].server;
 
@@ -231,38 +229,42 @@ export default {
 
   created() {
     this.slide.list = [];
-    this.$axios.get(config.ip + "/home/slide").then(response => {
-      response.data.msg.forEach(element => {
-        this.slide.list.push({
-          title: element.title,
-          src: element.img,
-          href: element.href
+    this.$axios
+      .get(this.$store.state.custom.ip + "/home/slide")
+      .then(response => {
+        response.data.msg.forEach(element => {
+          this.slide.list.push({
+            title: element.title,
+            src: element.img,
+            href: element.href
+          });
         });
+        this.slide.model = response.data.msg[0].title;
       });
-      this.slide.model = response.data.msg[0].title;
-    });
 
     this.News.Notice = [];
     this.News.News = [];
-    this.$axios.get(config.ip + "/home/news").then(response => {
-      response.data.msg.forEach(element => {
-        if (element.type === "notice") {
-          this.News.Notice.push({
-            id: element._id,
-            title: element.title,
-            href: element.href,
-            content: element.content
-          });
-        } else {
-          this.News.News.push({
-            id: element._id,
-            title: element.title,
-            href: element.href,
-            content: element.content
-          });
-        }
+    this.$axios
+      .get(this.$store.state.custom.ip + "/home/news")
+      .then(response => {
+        response.data.msg.forEach(element => {
+          if (element.type === "notice") {
+            this.News.Notice.push({
+              id: element._id,
+              title: element.title,
+              href: element.href,
+              content: element.content
+            });
+          } else {
+            this.News.News.push({
+              id: element._id,
+              title: element.title,
+              href: element.href,
+              content: element.content
+            });
+          }
+        });
       });
-    });
   }
 };
 </script>

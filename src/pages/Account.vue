@@ -51,7 +51,6 @@
 
 <script>
 import captcha from "../components/captcha.js";
-import config from "../components/config.js";
 
 export default {
   name: "PageAccount",
@@ -132,40 +131,39 @@ export default {
       switch (this.mode) {
         case "Register":
           this.$axios
-            .post(config.ip + "/register".post(config.ip + "/login", {
-              "username": this.username,
-              "password": this.password
-            }))
+            .post(this.$store.state.custom.ip + "/login", {
+              username: this.username,
+              password: this.password
+            })
             .then(response => {
               if (response.data.status) {
-                  this.$emit("event", "registered");
-                  this.$q.loading.hide();
-                  window.clearTimeout(timer);
-                  this.$q.notify(this.$t("注册成功"));
-              }
-              else {
-              switch (response.data.msg) {
-                case "id error":
-                  this.$q.loading.hide();
-                  window.clearTimeout(timer);
-                  this.$q.notify(this.$t("注册超时"));
-                  break;
-                case "captcha error":
-                  this.$q.loading.hide();
-                  window.clearTimeout(timer);
-                  this.$q.notify(this.$t("验证码错误"));
-                  break;
-                case "username exist":
-                  this.$q.loading.hide();
-                  window.clearTimeout(timer);
-                  this.$q.notify(this.$t("账号已存在"));
-                  break;
-                default:
-                  this.$q.loading.hide();
-                  window.clearTimeout(timer);
-                  this.$q.notify(this.$t("注册失败"));
-                  break;
-              }
+                this.$emit("event", "registered");
+                this.$q.loading.hide();
+                window.clearTimeout(timer);
+                this.$q.notify(this.$t("注册成功"));
+              } else {
+                switch (response.data.msg) {
+                  case "id error":
+                    this.$q.loading.hide();
+                    window.clearTimeout(timer);
+                    this.$q.notify(this.$t("注册超时"));
+                    break;
+                  case "captcha error":
+                    this.$q.loading.hide();
+                    window.clearTimeout(timer);
+                    this.$q.notify(this.$t("验证码错误"));
+                    break;
+                  case "username exist":
+                    this.$q.loading.hide();
+                    window.clearTimeout(timer);
+                    this.$q.notify(this.$t("账号已存在"));
+                    break;
+                  default:
+                    this.$q.loading.hide();
+                    window.clearTimeout(timer);
+                    this.$q.notify(this.$t("注册失败"));
+                    break;
+                }
               }
             })
             .catch(error => {
@@ -176,17 +174,16 @@ export default {
           break;
         case "Login":
           this.$axios
-            .post(config.ip + "/login", {
-              "username": this.username,
-              "password": this.password
+            .post(this.$store.state.custom.ip + "/login", {
+              username: this.username,
+              password: this.password
             })
             .then(response => {
               if (response.data.status) {
                 this.$emit("event", "login", this.username, this.password);
-                  this.$q.loading.hide();
-                  window.clearTimeout(timer);
-              }
-              else {
+                this.$q.loading.hide();
+                window.clearTimeout(timer);
+              } else {
                 switch (response.data.msg) {
                   case "username error":
                     this.$q.loading.hide();

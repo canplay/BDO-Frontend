@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import config from "../components/config.js";
 import "tui-editor/dist/tui-editor-contents.css";
 import "highlight.js/styles/github.css";
 import Viewer from "@toast-ui/vue-editor/src/Viewer.vue";
@@ -27,9 +26,11 @@ export default {
   },
 
   created() {
-    this.$axios.get(config.ip + "/markdown").then(response => {
-      this.viewerText = response.data.msg[0].download;
-    });
+    this.$axios
+      .get(this.$store.state.custom.ip + "/markdown")
+      .then(response => {
+        this.viewerText = response.data.msg[0].download;
+      });
   }
 };
 </script>

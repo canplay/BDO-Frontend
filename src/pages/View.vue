@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import config from "../components/config.js";
 import "tui-editor/dist/tui-editor-contents.css";
 import "highlight.js/styles/github.css";
 import Viewer from "@toast-ui/vue-editor/src/Viewer.vue";
@@ -28,7 +27,7 @@ export default {
 
   created() {
     this.$axios
-      .get(config.ip + "/news/" + this.$route.query.id)
+      .get(this.$store.state.custom.ip + "/news/" + this.$route.query.id)
       .then(response => {
         this.viewerText = response.data.msg.content;
       });

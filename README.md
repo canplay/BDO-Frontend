@@ -6,7 +6,7 @@ Dev:
 
 1. command: npm i
 2. run [BDO-Backend](https://github.com/canplay/BDO-Backend)
-3. modify './src/components/config.js' ip to your [BDO-Backend](https://github.com/canplay/BDO-Backend) ip
+3. modify './src/store/custom/state.js' ip to your [BDO-Backend](https://github.com/canplay/BDO-Backend) ip
 4. modify './launcher/launcher.cpp' ip to your [BDO-Backend](https://github.com/canplay/BDO-Backend) ip and build it
 5. copy './launcher/output/launcher.exe' to your BDO client dirctory and run once
 6. command: quasar dev
@@ -26,7 +26,7 @@ Language:
 the default language in MyLayout.vue:
 
 ```js
-this.$i18n.locale = "zh-cn";
+this.$i18n.locale = "en-us";
 ```
 
 User:

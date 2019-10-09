@@ -114,8 +114,6 @@
 </template>
 
 <script>
-import config from "../components/config.js";
-
 export default {
   name: "MyLayout",
 
@@ -187,14 +185,16 @@ export default {
   created() {
     this.$i18n.locale = "zh-cn";
 
-    this.$axios.get(config.ip + "/home/config").then(response => {
-      this.weblink.forum = response.data.msg[0].forum;
-      this.weblink.twitter = response.data.msg[0].twitter;
-      this.weblink.facebook = response.data.msg[0].facebook;
-      this.weblink.discord = response.data.msg[0].discord;
-      this.weblink.weibo = response.data.msg[0].weibo;
-      this.weblink.weixin = response.data.msg[0].weixin;
-    });
+    this.$axios
+      .get(this.$store.state.custom.ip + "/home/config")
+      .then(response => {
+        this.weblink.forum = response.data.msg[0].forum;
+        this.weblink.twitter = response.data.msg[0].twitter;
+        this.weblink.facebook = response.data.msg[0].facebook;
+        this.weblink.discord = response.data.msg[0].discord;
+        this.weblink.weibo = response.data.msg[0].weibo;
+        this.weblink.weixin = response.data.msg[0].weixin;
+      });
   }
 };
 </script>
