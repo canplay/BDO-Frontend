@@ -54,5 +54,23 @@ export default {
   如果游戏没有启动:
     "If the game is not started, try reinstalling the Launcher.exe",
   启动: "Launcher",
-  退出: "Logout"
+  退出: "Logout",
+  管理: "Admin",
+  概览: "Overview",
+  账号: "Account",
+  服务器时间: "Server Time",
+  运行时长: "Server Runtime",
+  游戏服务器地址: "Server IP",
+  启动器目录: "Launcher Link",
+  版本: "Version",
+  补丁目录: "Update Link",
+  微博: "Weibo",
+  微信: "Wechat",
+  保存: "Save",
+  滚动: "Slide",
+  插入: "Insert",
+  删除: "Delete",
+  标题: "Title",
+  图片: "Image",
+  链接: "Link"
 };

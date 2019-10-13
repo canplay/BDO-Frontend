@@ -32,7 +32,7 @@
                 v-if="this.$store.state.custom.logined"
                 name="admin"
                 to="/admin"
-                label="后台"
+                :label="$t('管理')"
                 exact
               />
             </q-tabs>
