@@ -21,7 +21,7 @@ export default {
 
   data() {
     return {
-      viewerText: "# TEST"
+      viewerText: null
     };
   },
 

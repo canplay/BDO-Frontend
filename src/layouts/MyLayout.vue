@@ -2,7 +2,10 @@
   <q-layout>
     <q-img src="statics/bg.png" class="fixed-center fit" style="z-index: -1" />
 
-    <div class="fixed-center" style="min-width: 570px; width: 80%">
+    <div
+      class="fixed-center fit"
+      style="min-width: 950px; padding-left: 150px; padding-right: 150px; padding-top: 50px"
+    >
       <div class="column">
         <div class="col" style="height: 10px" />
 
