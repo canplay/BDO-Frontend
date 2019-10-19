@@ -2,6 +2,12 @@
 
 ![Image text](https://github.com/canplay/BDO-Frontend/blob/master/preview.png)
 
+Requirement:
+
+Visual C++ 2019
+
+Node.js
+
 Dev:
 
 1. command: npm i
