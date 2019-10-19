@@ -437,9 +437,17 @@ void replace(std::string& strBase, std::string strSrc, std::string strDes)
   }
 }
 
+int checkVersion(std::string remote, std::string local)
+{
+  int exit = 0;
+
+
+  return exit;
+}
+
 int main(int argc, LPCSTR argv[])
 {
-  // BDOLauncher://E:/BDO_v795/bin64/BlackDesert64.exe&60.160.237.49&Username&Password
+  // BDOLauncher://E:/BDO_v795/bin64/BlackDesert64.exe&127.0.0.1&Username&Password
 
   if (argc < 2) {
     RegisterProtocol();

@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{384AE0B6-A8E3-3924-8630-1ABB3454A7C7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Include Files">
+      <UniqueIdentifier>{5dabf504-e526-400e-b541-f4826b893c99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\fuzzing">
+      <UniqueIdentifier>{6c3cafa6-bdce-4b0e-aac6-728a92f24913}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\bitstate.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\compile.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dfa.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\filtered_re2.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mimics_pcre.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\nfa.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\onepass.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parse.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\perl_groups.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\prefilter.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\prefilter_tree.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\prog.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\re2.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\regexp.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rune.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\set.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\simplify.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stringpiece.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\strutil.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tostring.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\unicode_casefold.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\unicode_groups.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\fuzzing\re2_fuzzer.cc">
+      <Filter>Source Files\fuzzing</Filter>
+    </ClCompile>
+    <ClCompile Include="src\pcre.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\benchmark.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\bitmap256.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\filtered_re2.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\flags.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\logging.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\mix.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\mutex.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\pcre.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\prefilter.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\prefilter_tree.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\prog.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\re2.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\regexp.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\set.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sparse_array.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\sparse_set.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\stringpiece.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\strutil.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\test.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\unicode_casefold.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\unicode_groups.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\utf.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\walker-inl.h">
+      <Filter>Include Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

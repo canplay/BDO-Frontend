@@ -22,3 +22,6 @@ yarn-error.log*
 /launcher/output
 /launcher/temp
 /launcher/.vs
+/Bin
+/Temp
+/.vs

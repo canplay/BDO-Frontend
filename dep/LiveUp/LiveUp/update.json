@@ -1,0 +1,19 @@
+{
+  "latest": {
+    "version": "3.1.190722",
+    "url": "http://192.168.200.221/app/update/oa.zip",
+    "updater": "http://192.168.200.221/app/update/update.exe",
+    "changelog": "<b>更新说明：</b><n>1.修复若干BUG<n>2.在签名设置中添加密码设置<n>3.在使用签名时需要输入密码",
+    "mandatory": true,
+    "launcher": "文山城投信息化办公平台.exe"
+  },
+  "1.0.0.0": {
+    "version": "3.1.190722",
+    "url": "http://192.168.200.221/app/update/oa.zip",
+    "updater": "http://192.168.200.221/app/update/update.exe",
+    "changelog": "<b>更新说明：</b><n>无",
+    "mandatory": true,
+    "filelist": "http://192.168.200.221/app/update/filelist.xml",
+    "launcher": "文山城投信息化办公平台.exe"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "latest": {
+    "version": "3.1.190722",
+    "url": "http://127.0.0.1/update/installer.zip",
+    "updater": "http://127.0.0.1/update/installer.exe",
+    "changelog": "<b>Update Summy：</b><n>1.Fix bug<n>2.Fix bug<n>3.Fix bug",
+    "mandatory": true,
+    "launcher": "launcher.exe"
+  },
+  "1.0.0.0": {
+    "version": "3.1.190722",
+    "url": "http://127.0.0.1/update/installer.zip",
+    "updater": "http://127.0.0.1/update/installer.exe",
+    "changelog": "<b>Update Summy：</b><n>none",
+    "mandatory": true,
+    "filelist": "http://127.0.0.1/update/filelist.json",
+    "launcher": "launcher.exe"
+  }
+}

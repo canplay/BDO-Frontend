@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="include">
+      <UniqueIdentifier>{492b34f0-c477-4064-b019-0b1c625d2302}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{f4d761df-b836-4723-acab-07e7bafb65d3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\crypt.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ioapi.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\iowin32.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\mztools.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\unzip.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\zip.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\ioapi.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\iowin32.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mztools.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\unzip.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\zip.c">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
