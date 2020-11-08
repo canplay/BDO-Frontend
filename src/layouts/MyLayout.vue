@@ -4,7 +4,12 @@
 
     <div
       class="fixed-center fit"
-      style="min-width: 950px; padding-left: 150px; padding-right: 150px; padding-top: 50px"
+      style="
+        min-width: 950px;
+        padding-left: 150px;
+        padding-right: 150px;
+        padding-top: 50px;
+      "
     >
       <div class="column">
         <div class="col" style="height: 10px" />
@@ -134,8 +139,8 @@ export default {
         facebook: null,
         discord: null,
         weibo: null,
-        weixin: null
-      }
+        weixin: null,
+      },
     };
   },
 
@@ -173,15 +178,15 @@ export default {
 
     onForum() {
       window.open(this.weblink.forum, "_blank");
-    }
+    },
   },
 
   created() {
-    this.$i18n.locale = "zh-cn";
+    this.$i18n.locale = "en-us";
 
     this.$axios
       .get(this.$store.state.custom.ip + "/home/config")
-      .then(response => {
+      .then((response) => {
         this.weblink.forum = response.data.msg[0].forum;
         this.weblink.twitter = response.data.msg[0].twitter;
         this.weblink.facebook = response.data.msg[0].facebook;
@@ -189,11 +194,6 @@ export default {
         this.weblink.weibo = response.data.msg[0].weibo;
         this.weblink.weixin = response.data.msg[0].weixin;
       });
-
-    let token = this.$q.sessionStorage.getItem("token");
-    if (token) {
-      this.$store.commit("custom/login", true);
-    }
-  }
+  },
 };
 </script>

@@ -56,7 +56,7 @@ export default {
   name: "PageAccount",
 
   props: {
-    mode: String
+    mode: String,
   },
 
   data() {
@@ -66,7 +66,7 @@ export default {
       captcha: null,
       imgCaptcha: null,
       labelBtn: null,
-      id: 0
+      id: 0,
     };
   },
 
@@ -133,9 +133,9 @@ export default {
           this.$axios
             .post(this.$store.state.custom.ip + "/register", {
               username: this.username,
-              password: this.password
+              password: this.password,
             })
-            .then(response => {
+            .then((response) => {
               if (response.data.status) {
                 this.$q.sessionStorage.set("token", response.data.msg);
                 this.$q.loading.hide();
@@ -172,12 +172,17 @@ export default {
           this.$axios
             .post(this.$store.state.custom.ip + "/login", {
               username: this.username,
-              password: this.password
+              password: this.password,
             })
-            .then(response => {
+            .then((response) => {
               if (response.data.status) {
                 this.$q.sessionStorage.set("token", response.data.msg);
-                this.$store.commit("custom/login", true);
+                this.$store.commit(
+                  "custom/login",
+                  true,
+                  this.username,
+                  this.password
+                );
                 this.$q.loading.hide();
                 window.clearTimeout(timer);
                 this.$emit("event");
@@ -203,7 +208,7 @@ export default {
             });
           break;
       }
-    }
+    },
   },
 
   created() {
@@ -226,7 +231,7 @@ export default {
 
   destroyed() {
     window.removeEventListener("resize", this.onResize);
-  }
+  },
 };
 </script>
 
