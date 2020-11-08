@@ -177,12 +177,11 @@ export default {
             .then((response) => {
               if (response.data.status) {
                 this.$q.sessionStorage.set("token", response.data.msg);
-                this.$store.commit(
-                  "custom/login",
-                  true,
-                  this.username,
-                  this.password
-                );
+                this.$store.commit("custom/login", {
+                  logined: true,
+                  username: this.username,
+                  password: this.password,
+                });
                 this.$q.loading.hide();
                 window.clearTimeout(timer);
                 this.$emit("event");

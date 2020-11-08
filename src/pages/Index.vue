@@ -194,7 +194,11 @@ export default {
     onLogin() {
       if (this.$store.state.custom.logined) {
         this.$q.sessionStorage.remove("token");
-        this.$store.commit("custom/login", false, "", "");
+        this.$store.commit("custom/login", {
+          logined: false,
+          username: "",
+          password: "",
+        });
       } else {
         this.dialogAccount.mode = "Login";
         this.dialogAccount.show = true;

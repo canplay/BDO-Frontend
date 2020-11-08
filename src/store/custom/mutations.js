@@ -1,5 +1,5 @@
-export function login(state, value, username, password) {
-  state.logined = value;
-  state.username = username;
-  state.password = password;
+export function login(state, value) {
+  state.logined = value.logined;
+  state.username = value.username;
+  state.password = value.password;
 }
