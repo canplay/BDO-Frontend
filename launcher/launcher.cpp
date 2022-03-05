@@ -52,40 +52,40 @@ int CreateLinkFile(LPCWSTR szStartAppPath, LPCWSTR szAddCmdLine, LPCOLESTR szDes
 {
   int exit = 0;
 
-	HRESULT hr = CoInitialize(NULL);
-	if (SUCCEEDED(hr))
-	{
-		IShellLink* pShellLink;
-		hr = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (void**)& pShellLink);
-		if (SUCCEEDED(hr))
-		{
-			pShellLink->SetPath(szStartAppPath);
-			std::wstring strTmp = szStartAppPath;
-			int nStart = strTmp.find_last_of(TEXT("/\\"));
-			pShellLink->SetWorkingDirectory(strTmp.substr(0, nStart).c_str());
-			pShellLink->SetArguments(szAddCmdLine);
+  HRESULT hr = CoInitialize(NULL);
+  if (SUCCEEDED(hr))
+  {
+    IShellLink* pShellLink;
+    hr = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (void**)&pShellLink);
+    if (SUCCEEDED(hr))
+    {
+      pShellLink->SetPath(szStartAppPath);
+      std::wstring strTmp = szStartAppPath;
+      int nStart = strTmp.find_last_of(TEXT("/\\"));
+      pShellLink->SetWorkingDirectory(strTmp.substr(0, nStart).c_str());
+      pShellLink->SetArguments(szAddCmdLine);
 
-			if (szIconPath) pShellLink->SetIconLocation(szIconPath, 0);
+      if (szIconPath) pShellLink->SetIconLocation(szIconPath, 0);
 
-			IPersistFile* pPersistFile;
-			hr = pShellLink->QueryInterface(IID_IPersistFile, (void**)& pPersistFile);
-			if (SUCCEEDED(hr))
-			{
-				hr = pPersistFile->Save((szDestLnkPath), FALSE);
-				if (SUCCEEDED(hr)) exit = 1;
-				pPersistFile->Release();
-			}
-			pShellLink->Release();
-		}
-		CoUninitialize();
-	}
-	return exit;
+      IPersistFile* pPersistFile;
+      hr = pShellLink->QueryInterface(IID_IPersistFile, (void**)&pPersistFile);
+      if (SUCCEEDED(hr))
+      {
+        hr = pPersistFile->Save((szDestLnkPath), FALSE);
+        if (SUCCEEDED(hr)) exit = 1;
+        pPersistFile->Release();
+      }
+      pShellLink->Release();
+    }
+    CoUninitialize();
+  }
+  return exit;
 }
 
 int EnableAutoStartShotcut(LPCWSTR szFilePath, LPCWSTR szShotcut)
 {
-	wchar_t szTemp[MAX_PATH] = { 0 };
-	swprintf_s(szTemp, L"C:/ProgramData/Microsoft/Windows/Start Menu/Programs/StartUp/%s", szShotcut);
+  wchar_t szTemp[MAX_PATH] = { 0 };
+  swprintf_s(szTemp, L"C:/ProgramData/Microsoft/Windows/Start Menu/Programs/StartUp/%s", szShotcut);
 
   if (_waccess(szTemp, 0) != 0) {
     return CreateLinkFile(szFilePath, L"", szTemp, 0);
@@ -96,8 +96,8 @@ int EnableAutoStartShotcut(LPCWSTR szFilePath, LPCWSTR szShotcut)
 
 int DisableAutoStartShotcut(LPCWSTR szFilePath, LPCWSTR szShotcut)
 {
-	wchar_t szTemp[MAX_PATH] = { 0 };
-	swprintf_s(szTemp, L"C:/ProgramData/Microsoft/Windows/Start Menu/Programs/StartUp/%s", szShotcut);
+  wchar_t szTemp[MAX_PATH] = { 0 };
+  swprintf_s(szTemp, L"C:/ProgramData/Microsoft/Windows/Start Menu/Programs/StartUp/%s", szShotcut);
 
   if (_waccess(szTemp, 0) == 0) {
     DeleteFile(szTemp);
@@ -109,12 +109,12 @@ int DisableAutoStartShotcut(LPCWSTR szFilePath, LPCWSTR szShotcut)
 
 int EnableDesktopShotcut(LPCWSTR szFilePath, LPCWSTR szShotcut)
 {
-	wchar_t szUserName[MAX_PATH] = { 0 };
-	DWORD dwSize = MAX_PATH;
-	GetUserName(szUserName, &dwSize);
+  wchar_t szUserName[MAX_PATH] = { 0 };
+  DWORD dwSize = MAX_PATH;
+  GetUserName(szUserName, &dwSize);
 
-	wchar_t szTemp[MAX_PATH] = { 0 };
-	swprintf_s(szTemp, L"C:/Users/%s/Desktop/%s", szUserName, szShotcut);
+  wchar_t szTemp[MAX_PATH] = { 0 };
+  swprintf_s(szTemp, L"C:/Users/%s/Desktop/%s", szUserName, szShotcut);
 
   if (_waccess(szTemp, 0) != 0) {
     return CreateLinkFile(szFilePath, L"", szTemp, 0);
@@ -125,12 +125,12 @@ int EnableDesktopShotcut(LPCWSTR szFilePath, LPCWSTR szShotcut)
 
 int DisableDesktopShotcut(LPCWSTR szFilePath, LPCWSTR szShotcut)
 {
-	wchar_t szUserName[MAX_PATH] = { 0 };
-	DWORD dwSize = MAX_PATH;
-	GetUserName(szUserName, &dwSize);
+  wchar_t szUserName[MAX_PATH] = { 0 };
+  DWORD dwSize = MAX_PATH;
+  GetUserName(szUserName, &dwSize);
 
-	wchar_t szTemp[MAX_PATH] = { 0 };
-	swprintf_s(szTemp, L"C:/Users/%s/Desktop/%s", szUserName, szShotcut);
+  wchar_t szTemp[MAX_PATH] = { 0 };
+  swprintf_s(szTemp, L"C:/Users/%s/Desktop/%s", szUserName, szShotcut);
 
   if (_waccess(szTemp, 0) == 0) {
     DeleteFile(szTemp);
@@ -144,38 +144,38 @@ int EnableAutoStartRegistry(LPCWSTR szFilePath, LPCWSTR szName)
 {
   int exit = 0;
 
-	wchar_t szReg[MAX_PATH] = L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
-	HKEY hKey;
-	if (SUCCEEDED(RegOpenKeyEx(HKEY_LOCAL_MACHINE, szReg, 0, KEY_WOW64_64KEY | KEY_ALL_ACCESS, &hKey)))
-	{
-		DWORD dwValue;
-		DWORD dwSize = sizeof(DWORD);
-		DWORD dwType = REG_SZ;
+  wchar_t szReg[MAX_PATH] = L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
+  HKEY hKey;
+  if (SUCCEEDED(RegOpenKeyEx(HKEY_LOCAL_MACHINE, szReg, 0, KEY_WOW64_64KEY | KEY_ALL_ACCESS, &hKey)))
+  {
+    DWORD dwValue;
+    DWORD dwSize = sizeof(DWORD);
+    DWORD dwType = REG_SZ;
 
-		if (SUCCEEDED(RegQueryValueEx(hKey, szName, 0, &dwType, (LPBYTE)&dwValue, &dwSize)))
-		{
+    if (SUCCEEDED(RegQueryValueEx(hKey, szName, 0, &dwType, (LPBYTE)&dwValue, &dwSize)))
+    {
       if (dwSize == sizeof(DWORD)) {
         RegSetValueEx(hKey, szName, 0, REG_SZ, (LPBYTE)szFilePath, wcslen(szFilePath) * sizeof(wchar_t) + 1);
         exit = 1;
       }
-		}
-	}
-	else if(SUCCEEDED(RegOpenKeyEx(HKEY_LOCAL_MACHINE, szReg, 0, KEY_ALL_ACCESS, &hKey)))
-	{
-		DWORD dwValue = 0;
-		DWORD dwSize = sizeof(DWORD);
-		DWORD dwType = REG_SZ;
-		
-		if (SUCCEEDED(RegQueryValueEx(hKey, szName, 0, &dwType, (LPBYTE)&dwValue, &dwSize)))
-		{
+    }
+  }
+  else if (SUCCEEDED(RegOpenKeyEx(HKEY_LOCAL_MACHINE, szReg, 0, KEY_ALL_ACCESS, &hKey)))
+  {
+    DWORD dwValue = 0;
+    DWORD dwSize = sizeof(DWORD);
+    DWORD dwType = REG_SZ;
+
+    if (SUCCEEDED(RegQueryValueEx(hKey, szName, 0, &dwType, (LPBYTE)&dwValue, &dwSize)))
+    {
       if (dwSize == sizeof(DWORD)) {
         RegSetValueEx(hKey, szName, 0, REG_SZ, (LPBYTE)szFilePath, wcslen(szFilePath) * sizeof(wchar_t) + 1);
         exit = 1;
       }
-		}
-	}
+    }
+  }
 
-	RegCloseKey(hKey);
+  RegCloseKey(hKey);
 
   return exit;
 }
@@ -184,78 +184,79 @@ int DisableAutoStartRegistry(LPCWSTR szFilePath, LPCWSTR szName)
 {
   int exit = 0;
 
-	wchar_t szReg[MAX_PATH] = L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
-	HKEY hKey;
-	if (SUCCEEDED(RegOpenKeyEx(HKEY_LOCAL_MACHINE, szReg, 0, KEY_WOW64_64KEY | KEY_ALL_ACCESS, &hKey)))
-	{
-		DWORD dwValue;
-		DWORD dwSize = sizeof(DWORD);
-		DWORD dwType = REG_SZ;
+  wchar_t szReg[MAX_PATH] = L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
+  HKEY hKey;
+  if (SUCCEEDED(RegOpenKeyEx(HKEY_LOCAL_MACHINE, szReg, 0, KEY_WOW64_64KEY | KEY_ALL_ACCESS, &hKey)))
+  {
+    DWORD dwValue;
+    DWORD dwSize = sizeof(DWORD);
+    DWORD dwType = REG_SZ;
 
-		if (SUCCEEDED(RegQueryValueEx(hKey, szName, 0, &dwType, (LPBYTE)& dwValue, &dwSize)))
-		{
+    if (SUCCEEDED(RegQueryValueEx(hKey, szName, 0, &dwType, (LPBYTE)&dwValue, &dwSize)))
+    {
       if (dwSize != sizeof(DWORD)) {
         RegDeleteValue(hKey, szName);
         exit = 1;
       }
-		}
-	}
-	else if (SUCCEEDED(RegOpenKeyEx(HKEY_LOCAL_MACHINE, szReg, 0, KEY_ALL_ACCESS, &hKey)))
-	{
-		DWORD dwValue = 0;
-		DWORD dwSize = sizeof(DWORD);
-		DWORD dwType = REG_SZ;
+    }
+  }
+  else if (SUCCEEDED(RegOpenKeyEx(HKEY_LOCAL_MACHINE, szReg, 0, KEY_ALL_ACCESS, &hKey)))
+  {
+    DWORD dwValue = 0;
+    DWORD dwSize = sizeof(DWORD);
+    DWORD dwType = REG_SZ;
 
-		if (SUCCEEDED(RegQueryValueEx(hKey, szName, 0, &dwType, (LPBYTE)& dwValue, &dwSize)))
-		{
+    if (SUCCEEDED(RegQueryValueEx(hKey, szName, 0, &dwType, (LPBYTE)&dwValue, &dwSize)))
+    {
       if (dwSize != sizeof(DWORD)) {
         RegDeleteValue(hKey, szName);
         exit = 1;
       }
-		}
-	}
+    }
+  }
 
-	RegCloseKey(hKey);
+  RegCloseKey(hKey);
 
   return exit;
 }
 
 void DelFile(LPCWSTR szFilePath)
 {
-	std::wstring strDir = szFilePath;
-	if (strDir.at(strDir.length() - 1) != '\\')
-		strDir += '\\';
-	WIN32_FIND_DATA wfd;
-	HANDLE hFind = FindFirstFile((strDir + L"*.*").c_str(), &wfd);
-	if (hFind == INVALID_HANDLE_VALUE) return;
+  std::wstring strDir = szFilePath;
+  if (strDir.at(strDir.length() - 1) != '\\')
+    strDir += '\\';
+  WIN32_FIND_DATA wfd;
+  HANDLE hFind = FindFirstFile((strDir + L"*.*").c_str(), &wfd);
+  if (hFind == INVALID_HANDLE_VALUE) return;
 
-	do
-	{
-		if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-		{
-			if (_wcsicmp(wfd.cFileName, L".") != 0 &&
-				_wcsicmp(wfd.cFileName, L"..") != 0)
+  do
+  {
+    if (wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+    {
+      if (_wcsicmp(wfd.cFileName, L".") != 0 &&
+        _wcsicmp(wfd.cFileName, L"..") != 0)
         DeleteFile((strDir + wfd.cFileName).c_str());
-		}
-		else
-		{
-			DeleteFile((strDir + wfd.cFileName).c_str());
-		}
-	} while (FindNextFile(hFind, &wfd));
-	FindClose(hFind);
-	RemoveDirectory(szFilePath);
+    }
+    else
+    {
+      DeleteFile((strDir + wfd.cFileName).c_str());
+    }
+  } while (FindNextFile(hFind, &wfd));
+  FindClose(hFind);
+  RemoveDirectory(szFilePath);
 }
 
-int RunGame(LPCSTR dir, LPCSTR ip, LPCSTR username, LPCSTR password)
+int RunGame(LPCSTR path, LPCSTR ip, LPCSTR username, LPCSTR password)
 {
   int exit = 0;
 
   char szPara[MAX_PATH];
   sprintf_s(szPara, "%s,%s", username, password);
 
-  std::string s = dir;
-  size_t pos = s.find_last_of("\\/");
-  ShellExecuteA(0, "open", dir, szPara, s.substr(0, pos).c_str(), SW_SHOW);
+  std::string dir = path;
+  size_t pos = dir.find_last_of("/");
+  dir = dir.substr(0, pos + 1).c_str();
+  ShellExecuteA(0, "open", path, szPara, dir.c_str(), SW_SHOW);
 
   HANDLE hShot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
   if (hShot != INVALID_HANDLE_VALUE)
@@ -270,7 +271,7 @@ int RunGame(LPCSTR dir, LPCSTR ip, LPCSTR username, LPCSTR password)
       {
         CloseHandle(hShot);
 
-        Sleep(1500);
+        Sleep(500);
 
         hShot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, process.th32ProcessID);
         if (hShot != INVALID_HANDLE_VALUE)
@@ -298,7 +299,7 @@ int RunGame(LPCSTR dir, LPCSTR ip, LPCSTR username, LPCSTR password)
                 if (ReadProcessMemory(hProcess, (LPVOID)(dwBaseAddr + 10654470L), &dwRead, sizeof(DWORD64), &size))
                 {
                   BYTE byte[] = { 0x90, 0x90 };
-                  if (!WriteProcessMemory(hProcess, (LPVOID)(dwBaseAddr + 10654470L), byte, sizeof(byte) * sizeof(BYTE), &size))
+                  if (!WriteProcessMemory(hProcess, (LPVOID)(dwBaseAddr + 10654470L), byte, sizeof(BYTE), &size))
                   {
                     exit = 0;
                     CloseHandle(hProcess);
@@ -310,7 +311,7 @@ int RunGame(LPCSTR dir, LPCSTR ip, LPCSTR username, LPCSTR password)
                 if (ReadProcessMemory(hProcess, (LPVOID)(dwBaseAddr + 8018698L), &dwRead, sizeof(DWORD64), &size))
                 {
                   BYTE byte[] = { 0x90, 0x90 };
-                  if (!WriteProcessMemory(hProcess, (LPVOID)(dwBaseAddr + 8018698L), byte, sizeof(byte) * sizeof(BYTE), &size))
+                  if (!WriteProcessMemory(hProcess, (LPVOID)(dwBaseAddr + 8018698L), byte, sizeof(BYTE), &size))
                   {
                     exit = 0;
                     CloseHandle(hProcess);
@@ -322,7 +323,7 @@ int RunGame(LPCSTR dir, LPCSTR ip, LPCSTR username, LPCSTR password)
                 if (ReadProcessMemory(hProcess, (LPVOID)(dwBaseAddr + 8018928L), &dwRead, sizeof(DWORD64), &size))
                 {
                   BYTE byte[] = { 0xEB };
-                  if (!WriteProcessMemory(hProcess, (LPVOID)(dwBaseAddr + 8018928L), byte, sizeof(byte) * sizeof(BYTE), &size))
+                  if (!WriteProcessMemory(hProcess, (LPVOID)(dwBaseAddr + 8018928L), byte, sizeof(BYTE), &size))
                   {
                     exit = 0;
                     CloseHandle(hProcess);
@@ -334,7 +335,7 @@ int RunGame(LPCSTR dir, LPCSTR ip, LPCSTR username, LPCSTR password)
                 if (ReadProcessMemory(hProcess, (LPVOID)(dwBaseAddr + 45357624L), &dwRead, sizeof(DWORD64), &size))
                 {
                   BYTE byte[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
-                  if (!WriteProcessMemory(hProcess, (LPVOID)(dwBaseAddr + 45357624L), byte, sizeof(byte) * sizeof(BYTE), &size))
+                  if (!WriteProcessMemory(hProcess, (LPVOID)(dwBaseAddr + 45357624L), byte, sizeof(BYTE), &size))
                   {
                     exit = 0;
                     CloseHandle(hProcess);
@@ -381,7 +382,6 @@ int RegisterProtocol()
   int exit = 0;
 
   wchar_t szReg[MAX_PATH] = L"BDOLauncher";
-  DWORD dwDisposition;
   HKEY hKey = 0;
   if (RegCreateKey(HKEY_CLASSES_ROOT, szReg, &hKey) == ERROR_SUCCESS)
   {
@@ -457,60 +457,50 @@ int main(int argc, LPCSTR argv[])
 
   std::string str = argv[1];
 
-	if (strcmp(argv[1], "EnableAutoStartShotcut") == 0)
-		return EnableAutoStartShotcut(MulitToWide(argv[2]).c_str(), MulitToWide(argv[3]).c_str());
-	else if (strcmp(argv[1], "DisableAutoStartShotcut") == 0)
+  if (strcmp(argv[1], "EnableAutoStartShotcut") == 0)
+    return EnableAutoStartShotcut(MulitToWide(argv[2]).c_str(), MulitToWide(argv[3]).c_str());
+  else if (strcmp(argv[1], "DisableAutoStartShotcut") == 0)
     return DisableAutoStartShotcut(MulitToWide(argv[2]).c_str(), MulitToWide(argv[3]).c_str());
-	else if (strcmp(argv[1], "EnableDesktopShotcut") == 0)
+  else if (strcmp(argv[1], "EnableDesktopShotcut") == 0)
     return EnableDesktopShotcut(MulitToWide(argv[2]).c_str(), MulitToWide(argv[3]).c_str());
-	else if (strcmp(argv[1], "DisableDesktopShotcut") == 0)
+  else if (strcmp(argv[1], "DisableDesktopShotcut") == 0)
     return DisableDesktopShotcut(MulitToWide(argv[2]).c_str(), MulitToWide(argv[3]).c_str());
-	else if (strcmp(argv[1], "EnableAutoStartRegistry") == 0)
+  else if (strcmp(argv[1], "EnableAutoStartRegistry") == 0)
     return EnableAutoStartRegistry(MulitToWide(argv[2]).c_str(), MulitToWide(argv[3]).c_str());
-	else if (strcmp(argv[1], "DisableAutoStartRegistry") == 0)
+  else if (strcmp(argv[1], "DisableAutoStartRegistry") == 0)
     return DisableAutoStartRegistry(MulitToWide(argv[2]).c_str(), MulitToWide(argv[3]).c_str());
-	else if (strcmp(argv[1], "DeleteFile") == 0)
+  else if (strcmp(argv[1], "DeleteFile") == 0)
     DelFile(MulitToWide(argv[2]).c_str());
   else if (strcmp(argv[1], "RunGame") == 0)
     return RunGame(argv[2], argv[3], argv[4], argv[5]);
   else if (strcmp(argv[1], "RegisterProtocol") == 0)
     return RegisterProtocol();
-  else if (str.find("bdolauncher://") != std::string::npos)
+  else if (str.find("BDOLauncher://") != std::string::npos)
   {
     std::string str = argv[1];
     std::string ip, path, username, password;
 
-    replace(str, "%20", " ");
+    size_t nStart = str.find_first_of('/');
+    size_t nEnd = str.find_first_of('&');
+    path = str.substr(nStart + 2, nEnd - nStart - 2);
 
-    char sPath[MAX_PATH];
-    GetModuleFileNameA(NULL, sPath, MAX_PATH);
-    path = sPath;
-    size_t nStart1 = path.find_last_of('\\');
-    path = path.substr(0, nStart1);
-    sprintf_s(sPath, "%s\\bin64\\BlackDesert64.exe", path.c_str());
+    nStart = str.find('&', nEnd);
+    nEnd = str.find('&', nStart + 1);
+    ip = str.substr(nStart + 1, nEnd - nStart - 1);
 
-    size_t nStart = str.find('/') + 2;
-    size_t nEnd = str.find('&');
-    size_t offset = str.find('/', nStart);
-    ip = str.substr(nStart, nEnd - nStart);
+    nStart = str.find('&', nEnd);
+    nEnd = str.find('&', nStart + 1);
+    username = str.substr(nStart + 1, nEnd - nStart - 1);
 
-    nStart = nEnd + 1;
-    nEnd = str.find('&', nStart);
-    username = str.substr(nStart, nEnd - nStart);
+    nStart = str.find('&', nEnd);
+    password = str.substr(nStart + 1, str.length() - nStart - 1);
 
-    nStart = nEnd + 1;
-    password = str.substr(nStart, str.length() - nStart - 1);
-
-#ifdef _DEBUG
-    printf_s("%s %s %s %s", sPath, ip.c_str(), username.c_str(), password.c_str());
-#else
-    RunGame(sPath, ip.c_str(), username.c_str(), password.c_str());
-#endif
+//#ifdef _DEBUG
+//    printf_s("%s %s %s %s", path.c_str(), ip.c_str(), username.c_str(), password.c_str());
+//#else
+    RunGame(path.c_str(), ip.c_str(), username.c_str(), password.c_str());
+//#endif
   }
-
-#ifdef _DEBUG
-  _getch();
-#endif
 
   return 0;
 }
