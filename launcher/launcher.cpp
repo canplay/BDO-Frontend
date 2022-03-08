@@ -20,7 +20,7 @@ std::wstring MulitToWide(const char* strMulite)
   MultiByteToWideChar(CP_ACP, 0, strMulite, strlen(strMulite), pwszDst, nSize);
   pwszDst[nSize] = 0;
 
-  if (pwszDst[0] == 0xFEFF) // skip Oxfeff  
+  if (pwszDst[0] == 0xFEFF) // skip Oxfeff
     for (int i = 0; i < nSize; i++)
       pwszDst[i] = pwszDst[i + 1];
 
@@ -441,7 +441,6 @@ int checkVersion(std::string remote, std::string local)
 {
   int exit = 0;
 
-
   return exit;
 }
 
@@ -495,11 +494,11 @@ int main(int argc, LPCSTR argv[])
     nStart = str.find('&', nEnd);
     password = str.substr(nStart + 1, str.length() - nStart - 1);
 
-//#ifdef _DEBUG
-//    printf_s("%s %s %s %s", path.c_str(), ip.c_str(), username.c_str(), password.c_str());
-//#else
+    //#ifdef _DEBUG
+    //    printf_s("%s %s %s %s", path.c_str(), ip.c_str(), username.c_str(), password.c_str());
+    //#else
     RunGame(path.c_str(), ip.c_str(), username.c_str(), password.c_str());
-//#endif
+    //#endif
   }
 
   return 0;
